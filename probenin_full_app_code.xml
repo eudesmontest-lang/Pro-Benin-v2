@@ -1,0 +1,753 @@
+<files>
+
+  <file path="package.json">
+    <![CDATA[
+{
+  "name": "probenin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.3.1",
+    "@radix-ui/react-avatar": "^1.0.4",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-tabs": "^1.0.4",
+    "@radix-ui/react-toast": "^1.1.5",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "firebase": "^10.10.0",
+    "lucide-react": "^0.359.0",
+    "next": "14.1.4",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-firebase-hooks": "^5.1.1",
+    "tailwind-merge": "^2.2.2",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.4",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
+  }
+}
+    ]]>
+  </file>
+
+  <file path="next.config.mjs">
+    <![CDATA[
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'lh3.googleusercontent.com',
+            },
+        ],
+    },
+};
+
+export default nextConfig;
+    ]]>
+  </file>
+
+  <file path="tailwind.config.js">
+    <![CDATA[
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: ["class"],
+  content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+  ],
+  theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
+    },
+  },
+  plugins: [require("tailwindcss-animate")],
+}
+    ]]>
+  </file>
+
+  <file path="postcss.config.js">
+    <![CDATA[
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+    ]]>
+  </file>
+  
+  <file path="tsconfig.json">
+    <![CDATA[
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/technician/page.tsxx"],
+  "exclude": ["node_modules"]
+}
+    ]]>
+  </file>
+
+  <file path=".gitignore">
+    <![CDATA[
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE specific
+.idea
+.vscode
+
+# Project specific
+probenin_full_app_code.xml
+    ]]>
+  </file>
+
+  <file path="firestore.rules">
+    <![CDATA[
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // CLIENTS: Public read, only owner can write
+    match /clients/{userId} {
+      allow read: if true;
+      allow create, update, delete: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    // TECHNICIANS: Public read, only owner can write
+    match /technicians/{userId} {
+      allow read: if true;
+      allow create, update, delete: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    // SERVICE REQUESTS: Authenticated users can read/list, only client can create/update/delete
+    match /serviceRequests/{requestId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.clientId == request.auth.uid;
+      allow update, delete: if isSignedIn() && resource.data.clientId == request.auth.uid;
+    }
+
+    // PRODUCTS: Public read, write restricted to admin
+    match /products/{productId} {
+      allow read: if true;
+      // Replace 'YOUR_ADMIN_UID' with the actual UID of the administrator
+      allow write: if isSignedIn() && request.auth.uid == 'YOUR_ADMIN_UID';
+    }
+
+    // ORDERS: Users can create and read their own orders
+    match /orders/{orderId} {
+        allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+        allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+        allow update, delete: if false; // Orders are final
+    }
+
+    // RATINGS: Authenticated users can create, public can read
+    match /ratings/{ratingId} {
+        allow read: if true;
+        allow create: if isSignedIn() && request.resource.data.clientId == request.auth.uid;
+    }
+  }
+}
+    ]]>
+  </file>
+
+  <file path="public/ads.txt">
+    <![CDATA[
+google.com, pub-6115906924297706, DIRECT, f08c47fec0942fa0
+    ]]>
+  </file>
+  
+  <file path="public/logo.svg">
+    <![CDATA[
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1024" height="1024" rx="224" fill="hsl(var(--primary))"/>
+<path d="M684.188 277.812C663.494 257.119 635.845 244 606.5 244H417.5C352.73 244 300 296.73 300 361.5V417.5C300 446.845 312.881 474.494 333.574 495.188L417.5 579.113V453.5C417.5 433.593 433.593 417.5 453.5 417.5H570.5C590.407 417.5 606.5 433.593 606.5 453.5V579.113L684.188 495.188C704.881 474.494 717.762 446.845 717.762 417.5V361.5C717.762 332.155 704.881 304.506 684.188 277.812Z" fill="hsl(var(--primary-foreground))"/>
+<path d="M690.426 528.812L606.5 612.887V748.5C606.5 768.407 590.407 784.5 570.5 784.5H453.5C433.593 784.5 417.5 768.407 417.5 748.5V612.887L333.574 528.812C312.881 555.506 300 583.155 300 612.5V668.5C300 733.27 352.73 786 417.5 786H606.5C671.27 786 724 733.27 724 668.5V612.5C724 583.155 711.119 555.506 690.426 528.812Z" fill="hsl(var(--primary-foreground))"/>
+</svg>
+    ]]>
+  </file>
+
+  <file path="public/technician-1.jpg"><![CDATA[]]></file>
+  <file path="public/technician-2.jpg"><![CDATA[]]></file>
+  <file path="public/technician-3.jpg"><![CDATA[]]></file>
+
+  <file path="src/app/layout.tsx">
+    <![CDATA[
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
+import { FirebaseProvider } from "@/lib/firebase";
+import Script from "next/script";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import StickyFooterAd from "@/components/StickyFooterAd";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "ProBénin - Le Pro qu'il vous faut, à côté de chez vous.",
+  description: "Mise en relation intelligente entre clients ayant des pannes domestiques et techniciens qualifiés au Bénin.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="fr">
+      <head>
+        <Script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6115906924297706`}
+          crossOrigin="anonymous"
+          strategy="lazyOnload"
+        />
+      </head>
+      <body className={cn(inter.className, "min-h-screen bg-background font-sans antialiased pb-24")}>
+        <FirebaseProvider>
+          <Header />
+          <main className="flex flex-col items-center">
+            {children}
+          </main>
+          <Footer />
+          <Toaster />
+          <StickyFooterAd />
+        </FirebaseProvider>
+      </body>
+    </html>
+  );
+}
+    ]]>
+  </file>
+
+  <file path="src/app/globals.css">
+    <![CDATA[
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+ 
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+ 
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+ 
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+    ]]>
+  </file>
+
+  <file path="src/app/page.tsx">
+    <![CDATA[
+'use client'
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Car, Tv, Droplets, Lightbulb, Smartphone, Wrench, PaintRoller, Refrigerator, MessageSquareHeart } from "lucide-react";
+import Link from "next/link";
+import Image from 'next/image';
+
+const categories = [
+  { name: "Électricité", icon: Lightbulb, slug: "electricity" },
+  { name: "Plomberie", icon: Droplets, slug: "plumbing" },
+  { name: "Climatisation", icon: Refrigerator, slug: "ac" },
+  { name: "Mécanique Auto", icon: Car, slug: "auto" },
+  { name: "Électronique", icon: Tv, slug: "electronics" },
+  { name: "Smartphones", icon: Smartphone, slug: "smartphones" },
+  { name: "Peinture", icon: PaintRoller, slug: "painting" },
+  { name: "Autres Dépannages", icon: Wrench, slug: "others" },
+];
+
+export default function Home() {
+
+  return (
+    <div className="w-full">
+      <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-primary text-primary-foreground">
+        <div className="container px-4 md:px-6">
+          <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+            <div className="flex flex-col justify-center space-y-4">
+              <div className="space-y-2">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+                  Un problème ? Un ProBénin.
+                </h1>
+                <p className="max-w-[600px] md:text-xl">
+                  Le technicien qualifié qu'il vous faut, à côté de chez vous. Gratuitement.
+                </p>
+              </div>
+              <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                <Link href="/client">
+                  <Button size="lg" className="w-full min-[400px]:w-auto">Exposer mon problème</Button>
+                </Link>
+                <Link href="/technician">
+                  <Button size="lg" variant="secondary" className="w-full min-[400px]:w-auto">Je suis Technicien</Button>
+                </Link>
+              </div>
+            </div>
+            <Image
+              src="/technician-1.jpg"
+              width="550"
+              height="550"
+              alt="Hero"
+              className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full py-12 md:py-24">
+        <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter text-center sm:text-4xl md:text-5xl mb-12">
+                Choisissez un domaine
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {categories.map((category) => (
+                    <Link href={`/technicians/${category.slug}`} key={category.slug}>
+                        <Card className="flex flex-col items-center justify-center p-6 hover:bg-accent transition-colors">
+                        <category.icon className="w-12 h-12 mb-4 text-primary" />
+                        <CardTitle className="text-center text-lg">{category.name}</CardTitle>
+                        </Card>
+                    </Link>
+                ))}
+            </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" className="w-full py-12 md:py-24 bg-muted">
+        <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
+          <div className="space-y-3">
+            <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">Comment ça marche ?</h2>
+            <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              C'est simple, rapide et 100% gratuit, financé par la publicité.
+            </p>
+          </div>
+          <div className="mx-auto w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-8 pt-8">
+             <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2"><span className="text-2xl font-bold text-primary">1.</span> Exposez votre problème</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p>Cliquez sur "Exposer mon problème" et décrivez votre panne à notre assistant IA. C'est comme discuter avec un expert.</p>
+                </CardContent>
+             </Card>
+             <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2"><span className="text-2xl font-bold text-primary">2.</span> Trouvez un Pro</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p>Consultez la liste des techniciens disponibles dans votre zone, ou laissez les pros vous contacter directement.</p>
+                </CardContent>
+             </Card>
+             <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2"><span className="text-2xl font-bold text-primary">3.</span> C'est réparé !</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p>Le technicien vous contacte, répare la panne. Vous pouvez ensuite le noter pour aider la communauté.</p>
+                </CardContent>
+             </Card>
+          </div>
+          <Link href="/guide" className="mt-8">
+            <Button>Voir le guide complet</Button>
+          </Link>
+        </div>
+      </section>
+
+      <section className="w-full py-12 md:py-24">
+        <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
+          <div className="space-y-2">
+            <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+              Rejoignez la communauté des Pros du Bénin
+            </h2>
+            <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              Inscrivez-vous gratuitement, recevez des offres de chantiers directement sur WhatsApp et développez votre activité.
+            </p>
+          </div>
+          <div className="flex flex-col gap-2 min-[400px]:flex-row lg:justify-end">
+            <Link href="/auth?role=technician">
+              <Button size="lg">Devenir Technicien Partenaire</Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  );
+}
+    ]]>
+  </file>
+  
+  <file path="src/app/api/diagnose/route.ts">
+    <![CDATA[
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+
+const generationConfig = {
+    temperature: 0.9,
+    topK: 1,
+    topP: 1,
+    maxOutputTokens: 2048,
+};
+
+const safetySettings = [
+    { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
+    { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
+    { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
+    { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE },
+];
+
+const diagnosisRequestSchema = z.object({
+    history: z.array(z.object({
+        role: z.string(),
+        parts: z.array(z.object({
+            text: z.string()
+        }))
+    }))
+});
+
+export async function POST(req: NextRequest) {
+    if (!process.env.GEMINI_API_KEY) {
+        return NextResponse.json({ error: "API key is not configured" }, { status: 500 });
+    }
+
+    try {
+        const body = await req.json();
+        const validation = diagnosisRequestSchema.safeParse(body);
+
+        if (!validation.success) {
+            return NextResponse.json({ error: "Invalid request body", details: validation.error.errors }, { status: 400 });
+        }
+        
+        const { history } = validation.data;
+        
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", safetySettings });
+
+        const parts = [
+            { text: `System instruction: Tu es un assistant intelligent pour l'application ProBénin. Ton rôle est de diagnostiquer des pannes domestiques au Bénin (Cotonou, Calavi, etc.).
+- Interroge le client en français simple, avec des expressions béninoises ("Yako", "Ça va aller", "On va gérer ça").
+- Ton objectif est de comprendre le problème pour le transmettre à un technicien.
+- NE JAMAIS DONNER DE PRIX. Si on te demande, réponds "Le prix sera fixé par le technicien sur place, le service de mise en relation est 100% gratuit."
+- NE JAMAIS DEMANDER D'ARGENT (Mobile Money, etc.). Le service est gratuit.
+- Demande le quartier du client ("Dans quel quartier de Cotonou êtes-vous ?").
+- Avant de conclure, demande le numéro WhatsApp du client: "Pour faciliter la communication, pouvez-vous me donner votre numéro WhatsApp svp ?".
+- Sois bref et direct. Pose une seule question à la fois.
+- Conclus toujours par une phrase qui rassure et indique que le diagnostic est terminé et qu'on va trouver un pro pour lui. Par exemple: "Merci pour les détails. C'est parfait. On va trouver un technicien compétent pour votre souci."
+` },
+        ];
+        
+        const result = await model.generateContent({
+            contents: [...parts, ...history],
+            generationConfig,
+        });
+        
+        const response = result.response;
+        const responseText = response.text();
+        
+        return NextResponse.json({ response: responseText });
+
+    } catch (e: any) {
+        console.error("Error in diagnosis API:", e);
+        const errorMessage = e.message || "An unknown error occurred";
+        return NextResponse.json({ 
+            error: "Oups, l'assistant IA a un souci technique.",
+            details: errorMessage,
+            // Fallback response so the user flow is not blocked
+            response: "Merci pour votre message. Veuillez décrire votre problème et indiquer votre quartier et numéro WhatsApp. Un technicien vous contactera." 
+        }, { status: 500 });
+    }
+}
+    ]]>
+  </file>
+
+  <file path="src/lib/firebase.ts">
+    <![CDATA[
+'use client'
+import {initializeApp, getApps, getApp, FirebaseApp} from 'firebase/app';
+import {getAuth, Auth} from 'firebase/auth';
+import {getFirestore, Firestore} from 'firebase/firestore';
+import React, {createContext, useContext} from 'react';
+
+// IMPORTANT: Replace with your Firebase project's configuration
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+};
+
+// Initialize Firebase
+let app: FirebaseApp;
+if (!getApps().length) {
+  app = initializeApp(firebaseConfig);
+} else {
+  app = getApp();
+}
+
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Context for providing Firebase services to components
+const FirebaseContext = createContext<{
+  app: FirebaseApp;
+  auth: Auth;
+  db: Firestore;
+} | null>(null);
+
+export const FirebaseProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
+  return (
+    <FirebaseContext.Provider value={{app, auth, db}}>
+      {children}
+    </FirebaseContext.Provider>
+  );
+};
+
+// Hook to use Firebase services
+export const useFirebase = () => {
+  const context = useContext(FirebaseContext);
+  if (!context) {
+    throw new Error('useFirebase must be used within a FirebaseProvider');
+  }
+  return context;
+};
+
+export { app, auth, db };
+
+    ]]>
+  </file>
+  
+  <file path="src/lib/hooks.ts">
+    <![CDATA[
+import { useCollection as useFirebaseCollection } from 'react-firebase-hooks/firestore';
+import { collection, query, CollectionReference, Query } from 'firebase/firestore';
+import { useFirebase } from './firebase';
+
+export const useCollection = (path: string, q?: (ref: CollectionReference) => Query) => {
+    const { db } = useFirebase();
+    const ref = collection(db, path);
+    const finalQuery = q ? q(ref) : ref;
+    return useFirebaseCollection(finalQuery);
+}
+    ]]>
+  </file>
+  
+  <file path="src/lib/utils.ts">
+    <![CDATA[
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+    ]]>
+  </file>
+
+</files>
